@@ -1,0 +1,259 @@
+This is a *great* move—this is exactly how you start turning your ecosystem into a clean, sharable surface without friction.
+
+What you’re building here is essentially:
+
+> **ForgeRun Labs = your public “showroom layer” for everything you build**
+
+Instead of buying domains for every idea, you:
+
+* spin up projects
+* attach them to subdomains
+* share clean links instantly
+
+Let’s build you a **clean, high-end holding page** you can drop into Replit (or any static host).
+
+---
+
+# 🔥 ForgeRun Labs – Holding Page (Clean + Premium)
+
+### 📁 File: `index.html`
+
+Paste this as-is:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ForgeRun Labs</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: #0a0a0a;
+      color: #eaeaea;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 20px 40px;
+      border-bottom: 1px solid #1a1a1a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+
+    .sub {
+      font-size: 12px;
+      color: #888;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    p {
+      color: #aaa;
+      max-width: 600px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #1f1f1f;
+      padding: 20px;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .card:hover {
+      border-color: #444;
+      transform: translateY(-3px);
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 10px;
+    }
+
+    .card a {
+      color: #4da3ff;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    footer {
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid #1a1a1a;
+      font-size: 12px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <div class="logo">ForgeRun Labs</div>
+    <div class="sub">Royal Ohio Holdings</div>
+  </div>
+</header>
+
+<main>
+  <h1>Build. Launch. Showcase.</h1>
+
+  <p>
+    ForgeRun Labs is the public surface for experimental software, tools, and systems
+    built under Royal Ohio Holdings. Each project runs independently and can be accessed
+    via its own subdomain.
+  </p>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>ForgeRun</h3>
+      <p>AI-powered SaaS builder and infrastructure engine.</p>
+      <a href="https://forgerun.forgerunlabs.com">Visit →</a>
+    </div>
+
+    <div class="card">
+      <h3>OutdoorOps</h3>
+      <p>Field service platform for contractors and operations.</p>
+      <a href="#">Coming Soon →</a>
+    </div>
+
+    <div class="card">
+      <h3>Director’s Cut</h3>
+      <p>Cinematic AI system for storytelling and video creation.</p>
+      <a href="#">Coming Soon →</a>
+    </div>
+
+    <div class="card">
+      <h3>More Projects</h3>
+      <p>New tools and experiments are continuously deployed.</p>
+      <a href="#">Explore →</a>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  © 2026 Royal Ohio Holdings — ForgeRun Labs
+</footer>
+
+</body>
+</html>
+```
+
+---
+
+# ⚡ How You Actually Use This (Important)
+
+### 1. Buy domain:
+
+* `forgerunlabs.com`
+
+### 2. Set up subdomains:
+
+In your DNS:
+
+```
+forgerun.forgerunlabs.com → your ForgeRun app
+outdoorops.forgerunlabs.com → OutdoorOps
+directorscut.forgerunlabs.com → Director’s Cut
+```
+
+### 3. Point root domain:
+
+```
+forgerunlabs.com → this landing page
+```
+
+---
+
+# 🧠 Why This Is Powerful (Strategically)
+
+This becomes your:
+
+* **Zero-friction demo layer**
+* **Investor-ready surface**
+* **YC-ready portfolio hub**
+* **Internal testing gateway**
+
+Instead of:
+
+> “Let me send you 5 random links…”
+
+You say:
+
+> “Go to forgerunlabs.com — everything is there.”
+
+---
+
+# 🔥 Next Upgrade (I recommend this next)
+
+If you want to level this up into your sovereign stack:
+
+I can build you:
+
+### “ForgeRun Labs Control Panel”
+
+* Add/remove projects dynamically
+* Auto-generate subdomains
+* Show status (LIVE / BUILDING / OFFLINE)
+* Tie into ForgeRun deployment system
+
+---
+
+If you want, say:
+
+👉 **“Ash — make this dynamic + admin panel”**
+
+and I’ll turn this into a real system (not just a static page).

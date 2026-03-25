@@ -48,6 +48,16 @@ Every package extends `tsconfig.base.json` which sets `composite: true`. The roo
 - `pnpm run build` — runs `typecheck` first, then recursively runs `build` in all packages that define it
 - `pnpm run typecheck` — runs `tsc --build --emitDeclarationOnly` using project references
 
+## Artifacts
+
+### `artifacts/forgerun-labs` (`@workspace/forgerun-labs`)
+
+React + Vite frontend for ForgeRun Labs — the public-facing project registry and admin panel for Royal Ohio Holdings.
+
+- **Public homepage** (`/`): Dynamically loads and displays public projects from `/api/projects` with status badges
+- **Admin panel** (`/admin`): Token-protected panel to create, edit, delete projects. Admin token stored in localStorage
+- **Admin token**: `forgerun-labs-admin-2026` (set via `ADMIN_TOKEN` env var on the server)
+
 ## Packages
 
 ### `artifacts/api-server` (`@workspace/api-server`)

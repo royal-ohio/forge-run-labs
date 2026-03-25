@@ -1,0 +1,18 @@
+packages:
+  "framer-motion": "For premium page transitions, scroll reveals, and elegant hover micro-interactions"
+  "react-hook-form": "For robust and accessible admin form state management"
+  "@hookform/resolvers": "To integrate Zod validation with react-hook-form"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility to efficiently merge Tailwind CSS classes"
+
+images:
+  - path: "artifacts/forgerun-labs/public/images/hero-mesh.png"
+    description: "Abstract premium 3d gradient mesh background, deep midnight blue and black with vibrant cyan and electric purple light leaks, high resolution, clean corporate tech feel, very subtle grain texture"
+    aspect_ratio: "16:9"
+  - path: "artifacts/forgerun-labs/public/images/logo-mark.png"
+    description: "Minimalist futuristic geometric logo mark for a tech labs company, electric cyan on transparent background, sleek, premium, elegant"
+    aspect_ratio: "1:1"
+
+notes:
+  - Using generated hooks from @workspace/api-client-react
+  - Admin auth uses a simple token stored in localStorage, passed via 'x-admin-token' header

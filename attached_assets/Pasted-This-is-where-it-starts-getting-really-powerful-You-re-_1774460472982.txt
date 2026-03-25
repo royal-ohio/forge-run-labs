@@ -1,0 +1,322 @@
+This is where it starts getting *really* powerful 😮‍🔥
+
+You’re now turning ForgeRun Labs into a **lightweight control plane for deployment + routing**, not just a registry.
+
+---
+
+# 🧠 What This Upgrade Does
+
+We’re adding **two major capabilities**:
+
+## 1. 🌐 Subdomain Auto-Generator
+
+When you create a project:
+
+* It auto-generates:
+
+  ```
+  projectslug.forgerunlabs.com
+  ```
+* No manual typing needed
+* Consistent naming across your ecosystem
+
+---
+
+## 2. 🚀 Deployment Hooks (ForgeRun-aware)
+
+Each project can:
+
+* Store a **deploy URL**
+* Trigger a **deployment ping**
+* Track:
+
+  * `status`
+  * `last_deployed_at`
+  * `health`
+
+---
+
+# ⚠️ Scope (still same project)
+
+👉 This is a **SUB-UPGRADE** to:
+`forgerun-labs-registry`
+
+---
+
+# 🏗️ NEW CAPABILITIES ADDED
+
+We’ll extend:
+
+* DB model
+* API
+* Admin panel
+* Add deployment + health system
+
+---
+
+# 🔧 BACKEND UPGRADES
+
+---
+
+## 📁 `server/models.py` (UPDATED)
+
+```python
+from sqlalchemy import Column, Integer, String, Boolean
+from db import Base
+
+class Project(Base):
+    __tablename__ = "projects"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    name = Column(String)
+    description = Column(String)
+
+    slug = Column(String, unique=True)
+    subdomain = Column(String)
+    url = Column(String)
+
+    deploy_url = Column(String, nullable=True)
+
+    status = Column(String, default="BUILDING")
+    health = Column(String, default="UNKNOWN")
+
+    last_deployed_at = Column(String, nullable=True)
+
+    is_public = Column(Boolean, default=True)
+```
+
+---
+
+## 📁 `server/utils.py` (NEW)
+
+```python
+import re
+import datetime
+
+BASE_DOMAIN = "forgerunlabs.com"
+
+def generate_slug(name: str):
+    slug = name.lower()
+    slug = re.sub(r'[^a-z0-9]+', '-', slug)
+    return slug.strip('-')
+
+def build_subdomain(slug: str):
+    return f"{slug}.{BASE_DOMAIN}"
+
+def timestamp():
+    return datetime.datetime.utcnow().isoformat()
+```
+
+---
+
+## 📁 `server/main.py` (UPDATED CORE LOGIC)
+
+Replace your create endpoint with this:
+
+```python
+from utils import generate_slug, build_subdomain, timestamp
+import requests
+
+@app.post("/api/admin/projects")
+def create_project(project: dict, db: Session = Depends(get_db), token: str = Depends(verify_admin)):
+    
+    slug = generate_slug(project["name"])
+    subdomain = build_subdomain(slug)
+
+    url = f"https://{subdomain}"
+
+    new_project = Project(
+        name=project["name"],
+        description=project.get("description"),
+        slug=slug,
+        subdomain=subdomain,
+        url=url,
+        deploy_url=project.get("deploy_url"),
+        status="BUILDING"
+    )
+
+    db.add(new_project)
+    db.commit()
+    db.refresh(new_project)
+
+    return new_project
+```
+
+---
+
+# 🚀 DEPLOYMENT HOOK ENDPOINT
+
+## 📁 Add this to `server/main.py`
+
+```python
+@app.post("/api/admin/deploy/{project_id}")
+def trigger_deploy(project_id: int, db: Session = Depends(get_db), token: str = Depends(verify_admin)):
+    
+    project = db.query(Project).get(project_id)
+
+    if not project or not project.deploy_url:
+        raise HTTPException(400, "Deploy URL not configured")
+
+    try:
+        res = requests.post(project.deploy_url, timeout=10)
+
+        project.status = "LIVE" if res.status_code == 200 else "FAILED"
+        project.last_deployed_at = timestamp()
+
+        db.commit()
+
+        return {
+            "status": project.status,
+            "response_code": res.status_code
+        }
+
+    except Exception as e:
+        project.status = "FAILED"
+        db.commit()
+
+        return {"error": str(e)}
+```
+
+---
+
+# 💓 HEALTH CHECK SYSTEM
+
+## 📁 Add this endpoint
+
+```python
+@app.get("/api/health/{project_id}")
+def check_health(project_id: int, db: Session = Depends(get_db)):
+    
+    project = db.query(Project).get(project_id)
+
+    try:
+        res = requests.get(project.url, timeout=5)
+
+        project.health = "HEALTHY" if res.status_code == 200 else "DEGRADED"
+        db.commit()
+
+        return {"health": project.health}
+
+    except:
+        project.health = "OFFLINE"
+        db.commit()
+        return {"health": "OFFLINE"}
+```
+
+---
+
+# 🛠️ ADMIN PANEL UPGRADE
+
+## 📁 `client/admin.html` (ADD FIELDS)
+
+Add this input:
+
+```html
+<input id="deploy_url" placeholder="Deploy Webhook URL"><br>
+```
+
+---
+
+## Update `addProject()`
+
+```javascript
+const body = {
+  name: document.getElementById("name").value,
+  description: document.getElementById("desc").value,
+  deploy_url: document.getElementById("deploy_url").value
+};
+```
+
+---
+
+## Add Deploy Button in List
+
+Inside your project render:
+
+```javascript
+el.innerHTML = `
+  ${p.name} - ${p.status}
+  <button onclick="deploy(${p.id})">Deploy</button>
+  <button onclick="deleteProject(${p.id})">Delete</button>
+`;
+```
+
+---
+
+## Add Deploy Function
+
+```javascript
+async function deploy(id) {
+  const token = document.getElementById("token").value;
+
+  await fetch(`/api/admin/deploy/${id}`, {
+    method: "POST",
+    headers: { token }
+  });
+
+  loadProjects();
+}
+```
+
+---
+
+# 🌐 PUBLIC SITE UPGRADE (STATUS + HEALTH)
+
+Update display:
+
+```javascript
+el.innerHTML = `
+  <h3>${p.name}</h3>
+  <p>${p.description}</p>
+  <a href="${p.url}" target="_blank">${p.url}</a>
+  <p>Status: ${p.status}</p>
+  <p>Health: ${p.health}</p>
+`;
+```
+
+---
+
+# 🔥 What You Now Have
+
+This is BIG:
+
+### You can now:
+
+* Create projects → auto subdomain
+* Attach deploy hooks
+* Trigger deployments manually
+* Monitor health
+* Track system state
+
+---
+
+# 🧠 Strategic Insight (Important)
+
+You just created:
+
+> **A primitive version of Vercel + Replit + YC demo layer — combined**
+
+And it plugs directly into:
+
+* ForgeRun
+* Your Sovereign Stack
+* Future automation (Codex agents)
+
+---
+
+# 🚀 Next Move (Highly Recommended)
+
+Say:
+
+👉 **“Ash — auto-provision subdomains via Cloudflare API + SSL”**
+
+And I’ll take this from:
+
+> “simulated subdomains”
+
+to:
+
+> **real DNS + real SSL + production routing**
+
+That’s when this becomes a **real infrastructure layer**, not just a tool.

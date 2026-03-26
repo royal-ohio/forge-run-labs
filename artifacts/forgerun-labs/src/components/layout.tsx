@@ -71,7 +71,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <footer className="mt-auto border-t border-white/5 bg-background py-8">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 md:flex-row lg:px-8">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Royal Ohio Holdings. All rights reserved.
+            © {new Date().getFullYear()}{" "}
+            <a
+              href="https://royalohioholdings.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              Royal Ohio Holdings
+            </a>
+            . All rights reserved.
           </p>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Database className="h-4 w-4 text-primary" />

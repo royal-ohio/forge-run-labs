@@ -11,18 +11,21 @@ export default function Home() {
   return (
     <Layout>
       <div className="flex flex-col items-center text-center mb-20 lg:mb-32">
-        <motion.div
+        <motion.a
+          href="https://royalohioholdings.com/"
+          target="_blank"
+          rel="noopener noreferrer"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary mb-8"
+          className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary mb-8 hover:bg-primary/10 transition-colors"
         >
           <span className="relative flex h-2 w-2 mr-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
           </span>
           Royal Ohio Holdings
-        </motion.div>
+        </motion.a>
         
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}

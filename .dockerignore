@@ -1,0 +1,16 @@
+node_modules
+**/node_modules
+.git
+.gitignore
+.replit
+replit.nix
+.local
+attached_assets
+*.log
+.env
+.env.*
+**/dist
+**/coverage
+**/.turbo
+.DS_Store
+Thumbs.db

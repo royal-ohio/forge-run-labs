@@ -1,0 +1,107 @@
+# ⚡ EXECUTION DIRECTIVE
+MODE: FIX — You are an executor. Apply fixes directly.
+RULES:
+- Do NOT ask clarifying questions
+- Do NOT propose multiple options
+- Do NOT suggest architecture changes
+- Do NOT explain trade-offs — just fix
+- Provide COMPLETE file contents with EXACT paths
+- One fix per blocker, verify each independently
+
+## REPO: forge-run-labs
+SYSTEM: RealityOS Migration Command Center
+STATUS: BLOCKED | Confidence: 65% | Trust: 65%
+Priority: B | Strategy: standard-node | Framework: node
+
+### BLOCKER PRIORITY (EXECUTION ORDER)
+1. [CRITICAL][INFRA] FLY: No Dockerfile and no buildpack alternative (Procfile/nixpacks.toml) — Fly.io requires a container build strategy
+2. [CRITICAL][INFRA] No Dockerfile and no buildpack config — container deployment not possible
+3. [CRITICAL][INFRA] Docker not ready — no container build strategy
+4. [HIGH][INFRA] FLY: No fly.toml — Fly.io deployment configuration required
+5. [HIGH][OBSERVABILITY] FLY: No /health or /healthz endpoint found — Fly.io health checks require a health endpoint returning 200
+6. [HIGH][OBSERVABILITY] HEALTHZ: No /healthz endpoint detected — Container Law requires health check endpoint
+7. [HIGH][RUNTIME] SIGTERM: No graceful shutdown handler — Container Law requires SIGTERM handling
+8. [MEDIUM][STABILITY] Confidence too low (0.65)
+
+### RECOMMENDED FIX PLAN (ORDERED)
+Step 1: Add Dockerfile: FROM node:20-alpine, copy source, RUN npm ci --only=production, EXPOSE 8080, CMD with entry point
+Step 2: Address Fly.io deployment requirement — check fly.toml config, service binding, and internal_port settings
+Step 3: Add health endpoint: app.get('/healthz', (req, res) => res.status(200).json({ status: 'ok' }))
+Step 4: Add graceful shutdown: process.on('SIGTERM', () => { server.close(() => process.exit(0)); })
+Step 5: Resolve upstream blockers to raise confidence score above ready threshold
+Validate after each step.
+
+### WRITE MODE OUTPUT REQUIREMENTS
+For every fix, you MUST output:
+1. The FULL file content (not a partial snippet or diff)
+2. The EXACT file path relative to repo root
+3. File language/type annotation (e.g., ```dockerfile, ```javascript)
+4. No explanatory prose between files — just sequential file blocks
+5. If a fix modifies an existing file, output the ENTIRE file with changes applied
+
+### WARNINGS
+- [FLY] No SIGTERM handler — Fly.io sends SIGTERM before stopping machines; graceful shutdown recommended
+
+### INFRASTRUCTURE
+- Dockerfile: MISSING | Docker Ready: NO
+- Fly.io Ready: NO | Contract Score: 50%
+- Deploy Confidence: 11% | Mode: canary
+
+### SECURITY & COMPLIANCE
+- Secrets: CLEAN
+- Replit Dependencies: None
+- Patch Status: No patches applied | Verified: N/A
+
+---
+### GOAL
+Make this repo deployable on Fly.io sovereign infrastructure.
+
+### SUCCESS CRITERIA
+- App listens on 0.0.0.0:${PORT}
+- Dockerfile builds successfully
+- /healthz returns 200
+- Fly.io contract passes (all checks green)
+- readinessStatus = READY
+- No committed secrets or .env files
+- No Replit-specific dependencies remaining
+
+### CONSTRAINTS
+- Do NOT introduce new frameworks
+- Do NOT refactor unrelated code
+- Do NOT change architecture unless required
+- Prefer minimal, production-safe fixes
+- One fix per blocker — verify each independently
+
+### INSTRUCTIONS
+Resolve each blocker above in EXECUTION ORDER. For each fix:
+1. Output the COMPLETE file with the EXACT path (no partial snippets)
+2. Apply the fix directly — no explanations between file blocks
+3. Verify it resolves the specific blocker before proceeding
+
+### OUTPUT VERIFICATION (MANDATORY)
+Before marking success, you MUST verify:
+1. All written files exist at their specified paths
+2. Code compiles/builds without errors
+3. Runtime behavior is correct (app starts, no crash)
+4. Expected endpoints respond correctly (e.g., /healthz → 200)
+If ANY verification check fails → status = failed
+
+### VALIDATION LOOP
+After EACH step:
+1. Re-run RealityOS readiness check
+2. Confirm the targeted blocker is resolved
+3. Ensure no new blockers were introduced
+4. Stop immediately if system regresses
+5. Proceed only if system stability improves or holds
+Final validation must satisfy ALL success criteria before deployment.
+
+### FAIL-FAST RULE
+If a fix introduces a new CRITICAL blocker, build failure, or runtime crash:
+→ Rollback the last change and try an alternative minimal fix.
+Never stack broken fixes — each step must leave the system in a better or equal state.
+
+### STATUS UPDATE (MANDATORY)
+After execution completes, YOU (the executor) must write to:
+`/.realityos/execution.status.json`
+Update with actual execution result (success/failed), timestamp, and completed: true.
+Do NOT rely on an external system to update status. YOU own this.

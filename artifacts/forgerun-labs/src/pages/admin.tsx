@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { Plus, Edit2, Trash2, KeyRound, Lock, Search, AlertCircle } from "lucide-react";
+import { Plus, Edit2, Trash2, KeyRound, Lock, Search, AlertCircle, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { Layout } from "@/components/layout";

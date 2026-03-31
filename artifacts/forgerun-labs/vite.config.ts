@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig(async ({ command }) => {
   const isDev = command === "serve";
@@ -41,7 +42,75 @@ export default defineConfig(async ({ command }) => {
 
   return {
     base: basePath,
-    plugins: [react(), tailwindcss(), runtimeErrorOverlay(), ...replitPlugins],
+    plugins: [
+      react(),
+      tailwindcss(),
+      runtimeErrorOverlay(),
+      VitePWA({
+        registerType: "autoUpdate",
+        includeAssets: ["favicon.png", "favicon.svg", "apple-touch-icon.png"],
+        manifest: {
+          name: "ForgeRun Labs",
+          short_name: "ForgeRun",
+          description:
+            "The central registry and command center for all active developments, experiments, and production systems running under ForgeRun Labs.",
+          theme_color: "#FF3C00",
+          background_color: "#0a0a0a",
+          display: "standalone",
+          scope: basePath,
+          start_url: basePath,
+          orientation: "portrait-primary",
+          icons: [
+            {
+              src: "pwa-192x192.png",
+              sizes: "192x192",
+              type: "image/png",
+              purpose: "any",
+            },
+            {
+              src: "pwa-512x512.png",
+              sizes: "512x512",
+              type: "image/png",
+              purpose: "any maskable",
+            },
+          ],
+        },
+        workbox: {
+          globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+          runtimeCaching: [
+            {
+              urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+              handler: "CacheFirst",
+              options: {
+                cacheName: "google-fonts-cache",
+                expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
+                cacheableResponse: { statuses: [0, 200] },
+              },
+            },
+            {
+              urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+              handler: "CacheFirst",
+              options: {
+                cacheName: "gstatic-fonts-cache",
+                expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
+                cacheableResponse: { statuses: [0, 200] },
+              },
+            },
+            {
+              urlPattern: /\/api\/projects/,
+              handler: "NetworkFirst",
+              options: {
+                cacheName: "api-projects-cache",
+                expiration: { maxEntries: 10, maxAgeSeconds: 60 * 5 },
+                networkTimeoutSeconds: 5,
+                cacheableResponse: { statuses: [0, 200] },
+              },
+            },
+          ],
+        },
+      }),
+      ...replitPlugins,
+    ],
     resolve: {
       alias: {
         "@": path.resolve(import.meta.dirname, "src"),

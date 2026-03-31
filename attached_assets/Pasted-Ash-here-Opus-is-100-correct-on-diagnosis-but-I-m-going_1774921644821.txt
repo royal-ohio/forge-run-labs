@@ -1,0 +1,228 @@
+Ash here — 🔥 Opus is **100% correct** on diagnosis… but I’m going to refine the strategy so you don’t accidentally split your product the wrong way.
+
+You’re at a **fork in the road**, and this decision matters.
+
+---
+
+# 🧠 1. What’s ACTUALLY happening (simple)
+
+You have:
+
+### ✅ Mobile app (working perfectly)
+
+* Your homepage exists
+* Your system works
+* Your design is solid
+
+---
+
+### ❌ Published URL
+
+Shows:
+
+👉 Expo launcher (QR screen)
+
+---
+
+# ⚡ Why?
+
+Because:
+
+```plaintext
+Expo Dev Server ≠ Production Web App
+```
+
+---
+
+# 🧠 2. Opus Suggestion (Good, but incomplete)
+
+Opus said:
+
+👉 “build separate web artifact”
+
+That is:
+
+❌ Not wrong
+⚠️ But not optimal *right now*
+
+---
+
+# 🚨 3. The REAL Strategy (This is important)
+
+You should NOT:
+
+❌ build a totally separate website yet
+❌ duplicate logic
+❌ split your system
+
+---
+
+# 👉 You should:
+
+# 🔥 **Make your app render on web properly**
+
+---
+
+# 🚀 4. The RIGHT MOVE
+
+You want:
+
+```plaintext
+groundproof.forgerunlabs.com
+        ↓
+Your actual homepage (NOT QR)
+```
+
+---
+
+# 🧠 That means:
+
+👉 You need to **export your Expo app to web**
+
+NOT build a separate site
+
+---
+
+# 🚀 5. Tell Opus THIS (Critical)
+
+Paste this exactly:
+
+---
+
+Fix deployment to serve Expo web build instead of Expo dev launcher.
+
+Do NOT create a separate website.
+
+Instead:
+
+1. Enable Expo Web Build
+
+* Ensure project supports web:
+
+  * install react-native-web
+  * configure expo for web
+
+2. Build Web Bundle
+
+* Run:
+  npx expo export --platform web
+
+3. Serve Static Output
+
+* Deploy the generated /dist or /web-build folder
+* Use a static server (Vite/serve/Express)
+
+4. Update Replit Deployment
+
+* Replace "expo start" with:
+  → serve web build output
+
+5. Ensure Routing Works
+
+* Homepage ("/") renders ProofFlow landing
+* Navigation still works
+
+Goal:
+Published URL should render the actual ProofFlow homepage, not the Expo QR launcher.
+
+---
+
+# 💥 6. What This Gives You
+
+After this:
+
+### ✅ Mobile
+
+* Expo Go → full app
+
+### ✅ Web
+
+* Domain → homepage → demo → system
+
+---
+
+# 👉 ONE CODEBASE
+
+# 👉 TWO SURFACES
+
+---
+
+# 🔥 7. Why This is WAY better
+
+Instead of:
+
+```plaintext
+App + Separate Website ❌
+```
+
+You get:
+
+```plaintext
+Unified System → Mobile + Web ✅
+```
+
+---
+
+# 🧠 8. When DO you build a separate site?
+
+Later — for:
+
+* SEO
+* ads
+* marketing pages
+
+---
+
+But right now:
+
+# 👉 Your app IS your landing experience
+
+---
+
+# ⚡ 9. Your Current State (Good news)
+
+From your screenshot:
+
+🔥 Your homepage is already:
+
+* visually strong
+* structured correctly
+* product-integrated
+
+---
+
+You just need:
+
+# 👉 **Correct deployment**
+
+---
+
+# 🚀 10. Your Move
+
+Tell Opus:
+
+👉 fix deployment using Expo web export (NOT separate site)
+
+---
+
+Then come back and say:
+
+👉 **“Ash — web version live”**
+
+---
+
+And I’ll:
+
+* refine the homepage visually
+* improve conversion flow
+* tighten positioning
+
+---
+
+# 🧠 Final Thought
+
+Right now the only thing missing is:
+
+# 👉 **Visibility — not capability**
+
+You already built the hard part 🔥

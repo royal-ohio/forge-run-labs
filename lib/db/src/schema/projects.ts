@@ -14,7 +14,15 @@ export const projectsTable = pgTable("projects", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const insertProjectSchema = createInsertSchema(projectsTable).omit({ id: true, createdAt: true });
+export const insertProjectSchema = createInsertSchema(projectsTable, {
+  name: z.string().min(1).max(100).trim(),
+  description: z.string().min(1).max(500).trim(),
+  slug: z.string().min(1).max(120).regex(/^[a-z0-9-]+$/).trim().optional(),
+  url: z.string().min(1).max(500).trim(),
+  status: z.enum(["LIVE", "BUILDING", "OFFLINE"]),
+  sortOrder: z.number().int().min(0).max(9999).default(0),
+}).omit({ id: true, createdAt: true });
+
 export const updateProjectSchema = insertProjectSchema.partial();
 
 export type InsertProject = z.infer<typeof insertProjectSchema>;

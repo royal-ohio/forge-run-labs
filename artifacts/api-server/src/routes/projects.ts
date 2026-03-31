@@ -4,10 +4,22 @@ import { eq } from "drizzle-orm";
 
 const router: IRouter = Router();
 
-const ADMIN_TOKEN = process.env["ADMIN_TOKEN"] ?? "forgerun-labs-admin-2026";
+const ADMIN_TOKEN = process.env["ADMIN_TOKEN"];
+if (!ADMIN_TOKEN) {
+  throw new Error(
+    "ADMIN_TOKEN environment variable is not set. " +
+    "Set it before starting the server. Do not use a default value.",
+  );
+}
 
 function verifyAdmin(token: string | undefined): boolean {
-  return token === ADMIN_TOKEN;
+  if (!token || !ADMIN_TOKEN) return false;
+  if (token.length !== ADMIN_TOKEN.length) return false;
+  let mismatch = 0;
+  for (let i = 0; i < ADMIN_TOKEN.length; i++) {
+    mismatch |= token.charCodeAt(i) ^ ADMIN_TOKEN.charCodeAt(i);
+  }
+  return mismatch === 0;
 }
 
 function toApiProject(p: typeof projectsTable.$inferSelect) {
@@ -93,7 +105,7 @@ router.put("/admin/projects/:id", async (req, res) => {
     return;
   }
   const id = Number(req.params["id"]);
-  if (isNaN(id)) {
+  if (!Number.isInteger(id) || id <= 0 || id > 2147483647) {
     res.status(400).json({ error: "Invalid id" });
     return;
   }
@@ -126,7 +138,7 @@ router.delete("/admin/projects/:id", async (req, res) => {
     return;
   }
   const id = Number(req.params["id"]);
-  if (isNaN(id)) {
+  if (!Number.isInteger(id) || id <= 0 || id > 2147483647) {
     res.status(400).json({ error: "Invalid id" });
     return;
   }

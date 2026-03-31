@@ -10,6 +10,8 @@ import { logger } from "./lib/logger";
 
 const app: Express = express();
 
+app.set("trust proxy", 1);
+
 const ALLOWED_ORIGINS = [
   "https://forgerunlabs.com",
   "https://www.forgerunlabs.com",
@@ -29,7 +31,7 @@ app.use(
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
         imgSrc: ["'self'", "data:", "https:"],
-        connectSrc: ["'self'", "https://forgerunlabs.com", /\.replit\.dev$/],
+        connectSrc: ["'self'", "https://forgerunlabs.com", "https://*.replit.dev", "https://*.kirk.replit.dev"],
         frameSrc: ["'none'"],
         objectSrc: ["'none'"],
         baseUri: ["'self'"],

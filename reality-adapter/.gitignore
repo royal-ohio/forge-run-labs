@@ -1,0 +1,7 @@
+.reality-identity.json
+dist/
+node_modules/
+*.js
+*.d.ts
+*.js.map
+!package.json

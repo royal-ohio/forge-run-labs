@@ -1,6 +1,6 @@
 {
   "name": "reality-adapter",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "description": "RealityOS Adapter — connects this repo to the Brain Hub mesh",
   "scripts": {

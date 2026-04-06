@@ -45,4 +45,9 @@ EXPOSE 8080
 ENV NODE_ENV=production
 ENV PORT=8080
 
-CMD ["node", "dist/index.mjs"]
+
+# --- RealityOS Adapter ---
+COPY reality-adapter/ /app/reality-adapter/
+RUN cd /app/reality-adapter && npm install --silent
+RUN chmod +x /app/reality-adapter/entrypoint.sh
+ENTRYPOINT ["/bin/sh", "/app/reality-adapter/entrypoint.sh"]

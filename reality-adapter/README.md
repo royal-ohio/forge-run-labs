@@ -55,7 +55,7 @@ cp -r reality-adapter-template/ /path/to/your-repo/reality-adapter/
 export REALITY_SECRET="your-shared-secret"
 
 # Required for signed command mode
-export BRAIN_HUB_URL="https://migration-hub.replit.app"
+export BRAIN_HUB_URL="https://realityos-node-a.fly.dev"
 export ACCESS_TOKEN="your-access-token"
 
 # Auto-detected from directory name if not set
@@ -128,7 +128,7 @@ app.get("/", (req, res) => res.send("Hello"));
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
 | `REALITY_SECRET` | For fallback auth | — | Shared secret for `x-reality-key` header authentication |
-| `BRAIN_HUB_URL` | No | `https://migration-hub.replit.app` | Brain Hub base URL (must be HTTPS) |
+| `BRAIN_HUB_URL` | No | `https://realityos-node-a.fly.dev` | Brain Hub base URL (must be HTTPS) |
 | `ACCESS_TOKEN` | For registration | — | Token for authenticating with Brain Hub API |
 | `BRAIN_AUTHORITY_PUBLIC_KEY` | No | Fetched from Brain Hub | Pinned authority public key (hex). If set, skips fetching from Brain Hub — use for high-security or air-gapped deployments |
 | `ALLOW_INSECURE_BRAIN_HUB` | No | `false` | Set to `true` to allow HTTP (non-HTTPS) `BRAIN_HUB_URL` — **dev/testing only**, never use in production |

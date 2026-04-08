@@ -1,3 +1,7 @@
+// DEV ONLY — NOT USED IN PRODUCTION
+// The production /healthz endpoint is served by reality-adapter/adapter.ts
+// This file is retained for local development and testing only.
+
 const express = require("express");
 const app = express();
 

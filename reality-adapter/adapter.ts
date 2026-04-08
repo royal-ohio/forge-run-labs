@@ -1484,3 +1484,14 @@ if (typeof require !== "undefined" && require.main === module) {
     process.exit(1);
   });
 }
+
+
+process.on("SIGTERM", () => {
+  console.log("[adapter] SIGTERM received — shutting down gracefully");
+  process.exit(0);
+});
+
+process.on("SIGINT", () => {
+  console.log("[adapter] SIGINT received — shutting down gracefully");
+  process.exit(0);
+});

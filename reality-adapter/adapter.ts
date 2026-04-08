@@ -943,6 +943,8 @@ function handleStatus(state: AdapterState, res: http.ServerResponse): void {
 
 function handleHealthz(state: AdapterState, res: http.ServerResponse): void {
   sendJson(res, 200, {
+    status: "ok",
+    service: "forge-run-labs",
     ok: true,
     adapterId: state.identity?.adapterId ?? null,
     identityLoaded: !!state.identity,

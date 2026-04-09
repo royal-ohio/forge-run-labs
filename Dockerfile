@@ -1,10 +1,10 @@
-FROM node:20-alpine AS deps
+FROM node:20-bullseye-slim AS deps
 
 RUN npm install -g pnpm@latest
 
 WORKDIR /app
 
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.base.json ./
 COPY artifacts/api-server/package.json ./artifacts/api-server/
 COPY artifacts/forgerun-labs/package.json ./artifacts/forgerun-labs/
 COPY artifacts/mockup-sandbox/package.json ./artifacts/mockup-sandbox/
@@ -33,7 +33,9 @@ COPY artifacts/api-server/ ./artifacts/api-server/
 RUN pnpm --filter @workspace/api-server run build
 
 
-FROM node:20-alpine AS production
+FROM node:20-bullseye-slim AS production
+
+RUN apt-get update && apt-get install -y --no-install-recommends bash && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -50,4 +52,4 @@ ENV PORT=8080
 COPY reality-adapter/ /app/reality-adapter/
 RUN cd /app/reality-adapter && npm install --silent
 RUN chmod +x /app/reality-adapter/entrypoint.sh
-ENTRYPOINT ["/bin/sh", "/app/reality-adapter/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/app/reality-adapter/entrypoint.sh"]

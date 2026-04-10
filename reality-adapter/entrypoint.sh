@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # RealityOS Entrypoint — runs the adapter alongside the main app
 # The adapter connects to Brain Hub for fleet coordination
 

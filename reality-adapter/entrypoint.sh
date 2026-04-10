@@ -17,7 +17,6 @@ cleanup() {
 trap cleanup SIGTERM SIGINT
 
 echo "[entrypoint] Starting Reality Adapter v2.0 on port $PORT..."
-cd /app/reality-adapter && npm install --silent 2>/dev/null
 cd /app
 BRAIN_HUB_URL=${BRAIN_HUB_URL:-https://realityos-node-a.fly.dev} \
 npx tsx /app/reality-adapter/adapter.ts &

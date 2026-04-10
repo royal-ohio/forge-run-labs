@@ -4,7 +4,7 @@ RUN npm install -g pnpm@latest
 
 WORKDIR /app
 
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.base.json ./
 COPY artifacts/api-server/package.json ./artifacts/api-server/
 COPY artifacts/forgerun-labs/package.json ./artifacts/forgerun-labs/
 COPY artifacts/mockup-sandbox/package.json ./artifacts/mockup-sandbox/

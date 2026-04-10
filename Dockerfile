@@ -50,4 +50,4 @@ ENV PORT=8080
 COPY reality-adapter/ /app/reality-adapter/
 RUN cd /app/reality-adapter && npm install --silent
 RUN chmod +x /app/reality-adapter/entrypoint.sh
-ENTRYPOINT ["/bin/sh", "/app/reality-adapter/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/app/reality-adapter/entrypoint.sh"]

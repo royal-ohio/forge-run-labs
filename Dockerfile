@@ -49,5 +49,6 @@ ENV PORT=8080
 # --- RealityOS Adapter ---
 COPY reality-adapter/ /app/reality-adapter/
 RUN cd /app/reality-adapter && npm install --silent
+RUN npm install -g tsx
 RUN chmod +x /app/reality-adapter/entrypoint.sh
 ENTRYPOINT ["/bin/bash", "/app/reality-adapter/entrypoint.sh"]

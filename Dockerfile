@@ -1,4 +1,4 @@
-FROM node:20-alpine AS deps
+FROM node:20-bullseye-slim AS deps
 
 RUN npm install -g pnpm@latest
 
@@ -33,7 +33,7 @@ COPY artifacts/api-server/ ./artifacts/api-server/
 RUN pnpm --filter @workspace/api-server run build
 
 
-FROM node:20-alpine AS production
+FROM node:20-bullseye-slim AS production
 
 WORKDIR /app
 

@@ -1,0 +1,12 @@
+[
+  {
+    "name": "file-integrity-check",
+    "command": "ls -la .realityos/patches/",
+    "expectedOutput": "patch files present"
+  },
+  {
+    "name": "docker-build-success",
+    "command": "docker build -t forge-run-labs-test . 2>&1 | tail -1",
+    "expectedOutput": "Successfully"
+  }
+]

@@ -1,0 +1,7 @@
+[
+  {
+    "path": ".realityos/patches/fix-docker-build.sh",
+    "action": "create",
+    "content": "#!/bin/bash\n# Rebuild Docker image with no cache\ndocker build --no-cache -t forge-run-labs . 2>&1\necho \"Docker rebuild complete\""
+  }
+]

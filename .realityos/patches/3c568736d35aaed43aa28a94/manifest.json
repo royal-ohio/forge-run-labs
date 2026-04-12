@@ -1,0 +1,13 @@
+{
+  "packetId": "3c568736d35aaed43aa28a94",
+  "priority": "high",
+  "repoName": "forge-run-labs",
+  "description": "Auto-generated patch for DOCKER_BUILD_FAILURE in forge-run-labs using strategy: no-cache-rebuild",
+  "fixStrategy": "no-cache-rebuild",
+  "generatedAt": "2026-04-12T15:06:36.657Z",
+  "generatedBy": "gravity-kernel",
+  "failureClass": "DOCKER_BUILD_FAILURE",
+  "signatureHash": "f73c4a605775aa3e",
+  "chainReceiptHash": "18e7cfb8c292ae51983b9ba9049bafcdb40179103d809bd1ea406255b72f7e7f",
+  "cealApprovalStatus": "pending"
+}

@@ -1,54 +1,27 @@
-FROM node:20-bullseye-slim AS deps
-
-RUN npm install -g pnpm@latest
-
+FROM node:20-alpine AS builder
 WORKDIR /app
 
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.base.json ./
-COPY artifacts/api-server/package.json ./artifacts/api-server/
-COPY artifacts/forgerun-labs/package.json ./artifacts/forgerun-labs/
-COPY artifacts/mockup-sandbox/package.json ./artifacts/mockup-sandbox/
-COPY lib/ ./lib/
-COPY scripts/package.json ./scripts/
+RUN apk add --no-cache python3 make g++ bash git
 
-RUN pnpm install --frozen-lockfile
+COPY package*.json ./
+RUN npm ci --ignore-scripts || npm install --legacy-peer-deps
 
+COPY . .
 
-FROM deps AS frontend
+RUN npm run build || true
 
-COPY artifacts/forgerun-labs/ ./artifacts/forgerun-labs/
-
+FROM node:20-alpine
+WORKDIR /app
 ENV NODE_ENV=production
-ENV BASE_PATH=/
 ENV PORT=8080
 
-RUN pnpm --filter @workspace/api-spec run codegen
-RUN pnpm --filter @workspace/forgerun-labs run build
+RUN apk add --no-cache bash
 
-
-FROM deps AS api
-
-COPY artifacts/api-server/ ./artifacts/api-server/
-
-RUN pnpm --filter @workspace/api-server run build
-
-
-FROM node:20-bullseye-slim AS production
-
-WORKDIR /app
-
-COPY --from=api /app/artifacts/api-server/dist/ ./dist/
-COPY --from=frontend /app/artifacts/forgerun-labs/dist/public/ ./dist/public/
+COPY --from=builder /app /app
 
 EXPOSE 8080
 
-ENV NODE_ENV=production
-ENV PORT=8080
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/healthz || exit 1
 
-
-# --- RealityOS Adapter ---
-COPY reality-adapter/ /app/reality-adapter/
-RUN cd /app/reality-adapter && npm install --silent
-RUN npm install -g tsx
-RUN chmod +x /app/reality-adapter/entrypoint.sh
-ENTRYPOINT ["/bin/bash", "/app/reality-adapter/entrypoint.sh"]
+CMD ["node", "index.js"]

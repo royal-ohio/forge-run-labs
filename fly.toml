@@ -1,12 +1,13 @@
 app = "realityos-forge-run-labs"
-primary_region = "ord"
+primary_region = "iad"
+kill_signal = "SIGTERM"
+kill_timeout = "30s"
 
 [build]
 
 [env]
-  REPO_NAME = "forge-run-labs"
-  BRAIN_HUB_URL = "https://realityos-node-a.fly.dev"
   PORT = "8080"
+  NODE_ENV = "production"
 
 [http_service]
   internal_port = 8080
@@ -15,7 +16,10 @@ primary_region = "ord"
   auto_start_machines = true
   min_machines_running = 0
 
-kill_timeout = "30s"
+  [http_service.checks]
+    interval = "30s"
+    timeout = "10s"
+    grace_period = "120s"
 
 [restart]
   policy = "always"
@@ -23,13 +27,4 @@ kill_timeout = "30s"
 
 [[vm]]
   size = "shared-cpu-1x"
-  memory = "512mb"
-
-[checks]
-  [checks.health]
-    type = "http"
-    port = 8080
-    path = "/healthz"
-    interval = "30s"
-    grace_period = "120s"
-    timeout = "10s"
+  memory = "256mb"

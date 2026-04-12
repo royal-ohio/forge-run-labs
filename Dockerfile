@@ -1,21 +1,21 @@
-FROM node:20-alpine AS builder
+FROM node:18-alpine AS builder
 WORKDIR /app
 
-RUN apk add --no-cache python3 make g++ bash git
+RUN apk add --no-cache python3 make g++ bash git curl
 
 COPY package*.json ./
-RUN npm ci --ignore-scripts || npm install --legacy-peer-deps
+RUN rm -f package-lock.json && npm install --legacy-peer-deps --ignore-scripts
 
 COPY . .
 
 RUN npm run build || true
 
-FROM node:20-alpine
+FROM node:18-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 
-RUN apk add --no-cache bash
+RUN apk add --no-cache bash curl
 
 COPY --from=builder /app /app
 

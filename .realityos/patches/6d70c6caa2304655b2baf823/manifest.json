@@ -1,0 +1,13 @@
+{
+  "packetId": "6d70c6caa2304655b2baf823",
+  "priority": "low",
+  "repoName": "forge-run-labs",
+  "description": "Auto-generated patch for UNKNOWN in forge-run-labs using strategy: manual-review",
+  "fixStrategy": "manual-review",
+  "generatedAt": "2026-04-12T20:20:44.470Z",
+  "generatedBy": "gravity-kernel",
+  "failureClass": "UNKNOWN",
+  "signatureHash": "b9ed36662dc93f1b",
+  "chainReceiptHash": "23dddc9000851f01278fd0c5a0a2bc68625c00c8c4b9782d95ce1735ef4204be",
+  "cealApprovalStatus": "pending"
+}

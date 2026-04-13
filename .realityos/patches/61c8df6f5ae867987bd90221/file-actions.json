@@ -1,0 +1,12 @@
+[
+  {
+    "path": "Dockerfile",
+    "action": "create",
+    "content": "FROM node:18-alpine AS builder\nWORKDIR /app\n\nRUN apk add --no-cache python3 make g++ bash git curl\n\nCOPY package*.json ./\nRUN rm -f package-lock.json && npm install --legacy-peer-deps --ignore-scripts\n\nCOPY . .\n\nRUN npm run build || true\n\nFROM node:18-alpine\nWORKDIR /app\nENV NODE_ENV=production\nENV PORT=8080\n\nRUN apk add --no-cache bash curl\n\nCOPY --from=builder /app /app\n\nEXPOSE 8080\n\nHEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \\\n  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/healthz || exit 1\n\nCMD [\"node\", \"index.js\"]\n"
+  },
+  {
+    "path": "fly.toml",
+    "action": "create",
+    "content": "app = \"realityos-forge-run-labs\"\nprimary_region = \"iad\"\nkill_signal = \"SIGTERM\"\nkill_timeout = \"30s\"\n\n[build]\n\n[env]\n  PORT = \"8080\"\n  NODE_ENV = \"production\"\n\n[http_service]\n  internal_port = 8080\n  force_https = true\n  auto_stop_machines = \"stop\"\n  auto_start_machines = true\n  min_machines_running = 0\n\n  [http_service.checks]\n    interval = \"30s\"\n    timeout = \"10s\"\n    grace_period = \"120s\"\n\n[restart]\n  policy = \"always\"\n  max_retries = 5\n\n[[vm]]\n  size = \"shared-cpu-1x\"\n  memory = \"256mb\"\n"
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "name": "file-integrity-check",
+    "command": "ls -la Dockerfile fly.toml package.json 2>/dev/null || echo 'some files missing'",
+    "expectedOutput": "files present"
+  },
+  {
+    "name": "patch-applied",
+    "command": "echo 'Manual verification required'"
+  }
+]

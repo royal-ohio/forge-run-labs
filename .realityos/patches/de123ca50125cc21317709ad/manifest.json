@@ -1,0 +1,13 @@
+{
+  "packetId": "de123ca50125cc21317709ad",
+  "priority": "high",
+  "repoName": "forge-run-labs",
+  "description": "Auto-generated patch for CRASH_LOOP in forge-run-labs using strategy: restart-with-reduced-resources",
+  "fixStrategy": "restart-with-reduced-resources",
+  "generatedAt": "2026-04-13T00:27:21.731Z",
+  "generatedBy": "gravity-kernel",
+  "failureClass": "CRASH_LOOP",
+  "signatureHash": "356f1fa935b3a9b9",
+  "chainReceiptHash": "e779a25de03ad67f04a64f22427c7de6a1aa1e7e2ee246800a1ebcbf3abe1f85",
+  "cealApprovalStatus": "pending"
+}
